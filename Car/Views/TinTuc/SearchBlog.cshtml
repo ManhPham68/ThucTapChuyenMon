@@ -1,0 +1,65 @@
+﻿@model PagedList.IPagedList<Car.Models.Blog>
+@using Car.Models
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/Blog.cshtml";
+}
+<!-- Page Content -->
+
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        var url = "/blog/" + item.metaTiltle + "-" + item.MaBlog;
+                        <div class="col-md-6">
+                            <div class="service-item">
+                                <a href="@url" class="services-item-image"><img src="/Content/assets/images/@item.HinhAnh" class="img-fluid" alt=""></a>
+
+                                <div class="down-content">
+                                    <h4><a href="@url">@item.TieuDe</a></h4>
+
+                                    <p style="margin: 0;"> TuanAnhHoang &nbsp;&nbsp;|&nbsp;&nbsp; @item.NgayCapNhat &nbsp;&nbsp;|&nbsp;&nbsp; 114</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                    <div class="col-md-12">
+                        <ul class="pages">
+                            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="contact-form">
+                    <div class="form-group">
+                        <h5>Blog Search</h5>
+                    </div>
+
+                    <div class="row">
+                        <form action="/TinTuc/SearchBlog" method="get">
+                            <div class="col-8">
+                                <input id="SearchString" name="SearchString" type="text" value="">
+                            </div>
+                            <br/>
+                            <div class="col-4">
+                                <input type="submit" value="Tìm kiếm" placeholder="Tìm Kiếm Theo Tên">
+
+                            </div>
+                            </form>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>

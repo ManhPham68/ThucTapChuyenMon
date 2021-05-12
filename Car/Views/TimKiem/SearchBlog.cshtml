@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Car.Models.Blog>
+
+@{
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 2);
+}
+
+
+@*<!DOCTYPE html>*@
+
+@*<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Index</title>
+    </head>
+    <body>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TieuDe)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoiDung)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HinhAnh)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NgayCapNhat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.metaTiltle)
+                </th>
+                <th></th>
+            </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TieuDe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoiDung)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HinhAnh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayCapNhat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.metaTiltle)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.MaBlog }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.MaBlog }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.MaBlog })
+                </td>
+            </tr>
+        }
+
+        </table>
+    </body>
+    </html>*@
+<div style="margin:15px">
+    <button class="btn btn-success" style="margin:15px"> @Html.ActionLink("Thêm Tin Tức Mới", "Create")</button>
+    <div style="position: absolute; top: 113px; right: 20px;">
+
+        @using (Html.BeginForm("SearchBlog", "TimKiem", FormMethod.Get)) // -- phần thay đổi
+        {
+            <p>
+                @Html.TextBox("SearchString") <input type="submit" value="Tìm kiếm" placeholder="Tìm Kiếm Theo Tên" />
+            </p>
+        }
+    </div>
+
+    @grid.GetHtml(
+        tableStyle: "girdTable",
+        headerStyle: "girdHead",
+        footerStyle: "girdFooter",
+        rowStyle: "girdRow",
+        alternatingRowStyle: "girdAltRow",
+        columns: grid.Columns(
+            grid.Column("TieuDe", "Tiêu Đề"),
+            grid.Column("NoiDung", "Nội Dung", format: p => @Html.Raw(p.NoiDung)),
+            grid.Column("NgayCapNhat", "Ngày Cập Nhật"),
+
+            grid.Column("HinhAnh", "Hình Ảnh", format: p => @Html.Raw("<img src=\"../Content/assets/images/" + p.HinhAnh + "\">")),
+            grid.Column("metaTiltle", "Meta Title"),
+            grid.Column(format: p => @Html.ActionLink("Chỉnh Sửa", "Edit", new { id = p.MaBlog })),
+            grid.Column(format: p => @Html.ActionLink("Xóa", "Delete", new { id = p.MaBlog }))
+            ))
+</div>
+<style>
+    .girdTable {
+        width: 100%;
+        margin: 15px
+    }
+
+        .girdTable td {
+            border: 1px solid #999999;
+            text-align: center;
+            width: 100px
+        }
+
+    .girdHead {
+        background-color: cornflowerblue;
+        text-align: center
+    }
+
+        .girdHead > th > a {
+            color: #ffffff
+        }
+
+    .girdFooter {
+        font-weight: bold
+    }
+
+    .girdRow img {
+        width: 370px;
+        height: 270px
+    }
+
+    .girdAltRow img {
+        width: 370px;
+        height: 270px
+    }
+
+    .girdFooter {
+        font-weight: bolder;
+        font-size: 15px
+    }
+</style>
+
